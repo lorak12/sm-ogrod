@@ -1,7 +1,8 @@
+import DashboardLayout from "@/components/layouts/DashboardLayout";
 import { checkRole } from "@/utils/roles";
 import { redirect } from "next/navigation";
 
-export default function DashboardLayout({
+export default function DashboardLayoutServer({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -9,6 +10,5 @@ export default function DashboardLayout({
   if (!checkRole("admin")) {
     redirect("/");
   }
-
-  return <div>{children}</div>;
+  return <DashboardLayout>{children}</DashboardLayout>;
 }

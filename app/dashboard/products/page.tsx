@@ -1,7 +1,8 @@
+import { getProducts } from "@/actions/productActions";
 import ProductClient from "./ProductClient";
 
 async function Page() {
-  const products: any[] = [];
+  const products = await getProducts();
   return <ProductClient products={products} />;
 }
 

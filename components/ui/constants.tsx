@@ -1,31 +1,19 @@
-import {
-  CircleCheck,
-  CircleIcon,
-  Timer,
-  CircleX,
-  Check,
-  X,
-} from "lucide-react";
+import { CircleCheck, CircleIcon, CircleX, Check, X } from "lucide-react";
 
 export const statuses = [
   {
-    value: "none",
-    label: "W kolejce",
+    value: "unPublic",
+    label: "Nie publiczny",
     icon: CircleIcon,
   },
   {
-    value: "inProgress",
-    label: "W trakcie",
-    icon: Timer,
-  },
-  {
-    value: "ended",
-    label: "Zakończona",
+    value: "public",
+    label: "Publiczny",
     icon: CircleCheck,
   },
   {
     value: "canceled",
-    label: "Wycofana",
+    label: "Wycofany",
     icon: CircleX,
   },
 ];

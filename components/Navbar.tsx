@@ -22,8 +22,7 @@ import {
 } from "@/components/ui/sheet";
 import { LuMenu } from "react-icons/lu";
 import { ThemeSwitcher } from "./ThemeSwitcher";
-import { checkRole } from "@/utils/roles";
-import { useUser } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 
 export function Navbar() {
   const { user } = useUser();
@@ -118,13 +117,18 @@ export function Navbar() {
               <SheetTitle>SM Ogród</SheetTitle>
             </SheetHeader>
             <NavigationMenu>
-              <ul className="grid w-[400px] gap-1 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] "></ul>
+              <ul className="grid w-[400px] gap-1 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                TODO
+              </ul>
             </NavigationMenu>
           </SheetContent>
         </Sheet>
       </div>
 
-      <ThemeSwitcher />
+      <div className="gap-4 flex items-center">
+        <UserButton />
+        <ThemeSwitcher />
+      </div>
     </nav>
   );
 }

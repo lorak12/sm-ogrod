@@ -66,7 +66,7 @@ function ProductClient({ products }: { products: any[] }) {
   }, [supabase]);
 
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+    <div className="flex flex-1 flex-col gap-4  lg:gap-6 ">
       <div className="flex items-center justify-between">
         <Breadcrumb>
           <BreadcrumbList>
@@ -84,7 +84,7 @@ function ProductClient({ products }: { products: any[] }) {
           </BreadcrumbList>
         </Breadcrumb>
         <Button asChild className="gap-2">
-          <Link href="/dashboard/produkty/new">
+          <Link href="/dashboard/products/new">
             Dodaj Produkt <CirclePlus className="w-4 h-4" />
           </Link>
         </Button>

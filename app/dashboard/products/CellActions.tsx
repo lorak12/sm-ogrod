@@ -23,6 +23,7 @@ import {
 import { Row } from "@tanstack/react-table";
 import { Product } from "./columns";
 import Link from "next/link";
+import { deleteProduct } from "@/actions/productActions";
 
 function CellActions({ row }: { row: Row<Product> }) {
   const product = row;
@@ -46,7 +47,7 @@ function CellActions({ row }: { row: Row<Product> }) {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link
-            href={`/dashboard/produkty/${product.original.id}`}
+            href={`/dashboard/products/${product.original.id}`}
             className="gap-2 flex items-center"
           >
             <Edit className="w-4 h-4" />
@@ -71,7 +72,11 @@ function CellActions({ row }: { row: Row<Product> }) {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Anuluj</AlertDialogCancel>
-                <AlertDialogAction>Kontynuuj</AlertDialogAction>
+                <AlertDialogAction
+                  onClick={async () => await deleteProduct(row.original.id)}
+                >
+                  Kontynuuj
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

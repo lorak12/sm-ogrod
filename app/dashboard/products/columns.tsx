@@ -5,15 +5,23 @@ import CellActions from "./CellActions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { booleans, statuses } from "@/components/ui/constants";
+import { format } from "date-fns";
+import { pl } from "date-fns/locale/pl";
 
 export type Product = {
   id: string;
   name: string;
-  startingPrice: number;
-  endingPrice: number;
+  description: string;
+  price: number;
   status: string;
-  isVisible: boolean;
-  buyer: string;
+  views: string;
+  category: {
+    id: string;
+    name: string;
+    description: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export const columns: ColumnDef<Product>[] = [
@@ -55,37 +63,16 @@ export const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "buyer",
+    accessorKey: "price",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Klasa" />
-    ),
-  },
-  {
-    accessorKey: "startingPrice",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Cena wywoławcza" />
+      <DataTableColumnHeader column={column} title="Cena" />
     ),
     cell: ({ row }) => {
-      const startingPrice = parseFloat(row.getValue("startingPrice"));
+      const price = parseFloat(row.getValue("price"));
       const formatted = new Intl.NumberFormat("pl-PL", {
         style: "currency",
         currency: "PLN",
-      }).format(startingPrice);
-
-      return <div className=" font-medium">{formatted}</div>;
-    },
-  },
-  {
-    accessorKey: "endingPrice",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Cena końcowa" />
-    ),
-    cell: ({ row }) => {
-      const endingPrice = parseFloat(row.getValue("endingPrice"));
-      const formatted = new Intl.NumberFormat("pl-PL", {
-        style: "currency",
-        currency: "PLN",
-      }).format(endingPrice);
+      }).format(price);
 
       return <div className=" font-medium">{formatted}</div>;
     },
@@ -105,7 +92,7 @@ export const columns: ColumnDef<Product>[] = [
       }
 
       return (
-        <div className="flex w-[100px] items-center">
+        <div className="flex w-[160px] items-center">
           {status.icon && (
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
@@ -118,30 +105,59 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: "isVisible",
+    accessorKey: "views",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Czy wyświetlane" />
+      <DataTableColumnHeader column={column} title="Wyświetlenia" />
+    ),
+  },
+  {
+    accessorKey: "category.name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kategoria" />
+    ),
+  },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Stworzony" />
     ),
     cell: ({ row }) => {
-      const boolean = booleans.find(
-        (boolean) => boolean.value === String(row.getValue("isVisible"))
+      const rawFormattedDate = format(
+        row.getValue("createdAt"),
+        " dd MMMM yyyy",
+        {
+          locale: pl,
+        }
       );
 
-      if (!boolean) {
-        return null;
-      }
-
-      return (
-        <div className="flex w-[100px] items-center">
-          {boolean.icon && (
-            <boolean.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
-          <span>{boolean.label}</span>
-        </div>
+      const formattedDate = rawFormattedDate.replace(
+        /(\d{2} )(\p{L})/u,
+        (match, p1, p2) => p1 + p2.toUpperCase()
       );
+
+      return <span>{formattedDate}</span>;
     },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
+  },
+  {
+    accessorKey: "updatedAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Aktualizowany" />
+    ),
+    cell: ({ row }) => {
+      const rawFormattedDate = format(
+        row.getValue("updatedAt"),
+        " dd MMMM yyyy",
+        {
+          locale: pl,
+        }
+      );
+
+      const formattedDate = rawFormattedDate.replace(
+        /(\d{2} )(\p{L})/u,
+        (match, p1, p2) => p1 + p2.toUpperCase()
+      );
+
+      return <span>{formattedDate}</span>;
     },
   },
   {

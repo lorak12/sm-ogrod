@@ -67,7 +67,7 @@ function ProductClient({ products }: { products: any[] }) {
 
   return (
     <div className="flex flex-1 flex-col gap-4  lg:gap-6 ">
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

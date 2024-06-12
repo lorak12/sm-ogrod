@@ -21,7 +21,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Check, ChevronsUpDown, CirclePlus } from "lucide-react";
+import {
+  Check,
+  ChevronsUpDown,
+  CircleCheck,
+  CirclePlus,
+  CircleX,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Command,
@@ -51,23 +57,14 @@ import {
 } from "@/components/ui/select";
 import { statuses } from "@/components/ui/constants";
 import { createCategory } from "@/actions/categoryActions";
-import { createProduct, updateProduct } from "@/actions/productActions";
+import { createProduct } from "@/actions/productActions";
 import { useRouter } from "next/navigation";
 
-export default function ProductForm({
-  initialData,
-  categories,
-}: {
-  initialData: any;
-  categories: any[];
-}) {
+export default function ProductForm({ categories }: { categories: any[] }) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof productFormSchema>>({
     resolver: zodResolver(productFormSchema),
-    defaultValues: {
-      ...initialData,
-    },
   });
 
   const categoryForm = useForm<z.infer<typeof categorySchema>>({
@@ -82,14 +79,15 @@ export default function ProductForm({
     try {
       await createCategory(data);
       toast({
-        title: "You submitted the following values:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
+        title: "Kategoria została stworzona",
+        action: <CircleCheck className="w-4 h-4 text-green-500" />,
       });
     } catch (error: any) {
+      toast({
+        title: "Coś poszło nie tak",
+        variant: "destructive",
+        action: <CircleX className="w-4 h-4 text-white" />,
+      });
       console.error(error);
       throw new Error(error);
     }
@@ -97,20 +95,19 @@ export default function ProductForm({
 
   async function onSubmit(data: z.infer<typeof productFormSchema>) {
     try {
-      initialData
-        ? await updateProduct(initialData.id, data)
-        : await createProduct(data);
+      await createProduct(data);
       toast({
-        title: "You submitted the following values:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
+        title: "Produkt został stworzony",
+        action: <CircleCheck className="w-4 h-4 text-green-500" />,
       });
       router.push("/dashboard/products");
       router.refresh();
     } catch (error: any) {
+      toast({
+        title: "Coś poszło nie tak",
+        variant: "destructive",
+        action: <CircleX className="w-4 h-4 text-white" />,
+      });
       console.error(error);
       throw new Error(error);
     }
@@ -126,11 +123,9 @@ export default function ProductForm({
             <FormItem>
               <FormLabel>Nazwa</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Huśtawka..." {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
+
               <FormMessage />
             </FormItem>
           )}

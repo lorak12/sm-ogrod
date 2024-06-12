@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const productFormSchema = z.object({
   name: z.string().min(1, { message: "Nazwa jest wymagana" }),
-  description: z.string().min(1, { message: "Opis jest wymagany" }), // opis
+  description: z.string(), // opis
   price: z.coerce
     .number()
     .nonnegative({ message: "Cena musi być liczbą nieujemną" }), // cena

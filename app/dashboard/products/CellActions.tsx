@@ -1,4 +1,11 @@
-import { Clipboard, Edit, MoreHorizontal, Trash } from "lucide-react";
+import {
+  CircleCheck,
+  Clipboard,
+  Edit,
+  Eye,
+  MoreHorizontal,
+  Trash,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,6 +31,7 @@ import { Row } from "@tanstack/react-table";
 import { Product } from "./columns";
 import Link from "next/link";
 import { deleteProduct } from "@/actions/productActions";
+import { toast } from "@/components/ui/use-toast";
 
 function CellActions({ row }: { row: Row<Product> }) {
   const product = row;
@@ -47,11 +55,11 @@ function CellActions({ row }: { row: Row<Product> }) {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link
-            href={`/dashboard/products/${product.original.id}`}
+            href={`/dashboard/products/${product.original.id}/view`}
             className="gap-2 flex items-center"
           >
-            <Edit className="w-4 h-4" />
-            Edytuj produkt
+            <Eye className="w-4 h-4" />
+            Zobacz produkt
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
@@ -73,7 +81,15 @@ function CellActions({ row }: { row: Row<Product> }) {
               <AlertDialogFooter>
                 <AlertDialogCancel>Anuluj</AlertDialogCancel>
                 <AlertDialogAction
-                  onClick={async () => await deleteProduct(row.original.id)}
+                  onClick={async () => {
+                    await deleteProduct(row.original.id);
+                    toast({
+                      title: "Produkt został usunięty",
+                      action: (
+                        <CircleCheck className="w-4 h-4 text-green-500" />
+                      ),
+                    });
+                  }}
                 >
                   Kontynuuj
                 </AlertDialogAction>

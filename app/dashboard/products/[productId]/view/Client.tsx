@@ -47,6 +47,7 @@ import {
   ChevronLeft,
   ChevronsUpDown,
   CircleCheck,
+  CircleMinus,
   CirclePlus,
   CircleX,
   PlusCircle,
@@ -55,7 +56,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
@@ -80,7 +81,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { Category } from "@prisma/client";
+import { Category, Product } from "@prisma/client";
 import {
   Dialog,
   DialogClose,
@@ -95,7 +96,7 @@ function Client({
   product,
   categories,
 }: {
-  product: any;
+  product: ProductWithDetailsAndCategory;
   categories: Category[];
 }) {
   const status = statuses.find((status) => status.value === product.status);
@@ -110,6 +111,14 @@ function Client({
       price: product.price,
       status: product.status,
       categoryId: product.categoryId,
+      details: [
+        ...product.details.map((detail: any) => {
+          return {
+            name: detail.name,
+            value: detail.value,
+          };
+        }),
+      ],
     },
   });
 
@@ -119,6 +128,11 @@ function Client({
       name: "",
       description: "",
     },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "details",
   });
 
   async function onCategoryFormSubmit(data: z.infer<typeof categorySchema>) {
@@ -259,139 +273,81 @@ function Client({
                     </div>
                   </CardContent>
                 </Card>
-                <Card x-chunk="dashboard-07-chunk-1">
+                <Card>
                   <CardHeader>
-                    <CardTitle>Stock</CardTitle>
+                    <CardTitle>Szczegóły</CardTitle>
                     <CardDescription>
-                      Lipsum dolor sit amet, consectetur adipiscing elit
+                      Tabelka zawierająca np. wymiary lub dostępne dodatki
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead className="w-[100px]">SKU</TableHead>
-                          <TableHead>Stock</TableHead>
-                          <TableHead>Price</TableHead>
-                          <TableHead className="w-[100px]">Size</TableHead>
+                          <TableHead className="w-[100px]">Szczegóły</TableHead>
+                          <TableHead>Nazwa wartości</TableHead>
+                          <TableHead>Wartość</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        <TableRow>
-                          <TableCell className="font-semibold">
-                            GGPC-001
-                          </TableCell>
-                          <TableCell>
-                            <Label htmlFor="stock-1" className="sr-only">
-                              Stock
-                            </Label>
-                            <Input
-                              id="stock-1"
-                              type="number"
-                              defaultValue="100"
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <Label htmlFor="price-1" className="sr-only">
-                              Price
-                            </Label>
-                            <Input
-                              id="price-1"
-                              type="number"
-                              defaultValue="99.99"
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <ToggleGroup
-                              type="single"
-                              defaultValue="s"
-                              variant="outline"
-                            >
-                              <ToggleGroupItem value="s">S</ToggleGroupItem>
-                              <ToggleGroupItem value="m">M</ToggleGroupItem>
-                              <ToggleGroupItem value="l">L</ToggleGroupItem>
-                            </ToggleGroup>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell className="font-semibold">
-                            GGPC-002
-                          </TableCell>
-                          <TableCell>
-                            <Label htmlFor="stock-2" className="sr-only">
-                              Stock
-                            </Label>
-                            <Input
-                              id="stock-2"
-                              type="number"
-                              defaultValue="143"
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <Label htmlFor="price-2" className="sr-only">
-                              Price
-                            </Label>
-                            <Input
-                              id="price-2"
-                              type="number"
-                              defaultValue="99.99"
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <ToggleGroup
-                              type="single"
-                              defaultValue="m"
-                              variant="outline"
-                            >
-                              <ToggleGroupItem value="s">S</ToggleGroupItem>
-                              <ToggleGroupItem value="m">M</ToggleGroupItem>
-                              <ToggleGroupItem value="l">L</ToggleGroupItem>
-                            </ToggleGroup>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell className="font-semibold">
-                            GGPC-003
-                          </TableCell>
-                          <TableCell>
-                            <Label htmlFor="stock-3" className="sr-only">
-                              Stock
-                            </Label>
-                            <Input
-                              id="stock-3"
-                              type="number"
-                              defaultValue="32"
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <Label htmlFor="price-3" className="sr-only">
-                              Stock
-                            </Label>
-                            <Input
-                              id="price-3"
-                              type="number"
-                              defaultValue="99.99"
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <ToggleGroup
-                              type="single"
-                              defaultValue="s"
-                              variant="outline"
-                            >
-                              <ToggleGroupItem value="s">S</ToggleGroupItem>
-                              <ToggleGroupItem value="m">M</ToggleGroupItem>
-                              <ToggleGroupItem value="l">L</ToggleGroupItem>
-                            </ToggleGroup>
-                          </TableCell>
-                        </TableRow>
+                        {fields.map((field, index: number) => (
+                          <TableRow key={field.id} className="h-[100px]">
+                            <TableCell className="font-semibold">
+                              {index + 1}
+                            </TableCell>
+                            <TableCell>
+                              <FormField
+                                control={form.control}
+                                name={`details.${index}.name`}
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <Input
+                                      {...field}
+                                      placeholder="Szerokość..."
+                                    />
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </TableCell>
+                            <TableCell>
+                              <FormField
+                                control={form.control}
+                                name={`details.${index}.value`}
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <Input {...field} placeholder="200 cm" />
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="gap-1"
+                                onClick={() =>
+                                  index > 0 ? remove(index) : null
+                                }
+                              >
+                                <CircleMinus className="h-3.5 w-3.5" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
                       </TableBody>
                     </Table>
                   </CardContent>
                   <CardFooter className="justify-center border-t p-4">
-                    <Button size="sm" variant="ghost" className="gap-1">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="gap-1"
+                      onClick={() => append({ name: "", value: "" })}
+                    >
                       <PlusCircle className="h-3.5 w-3.5" />
-                      Add Variant
+                      Dodaj wiersz
                     </Button>
                   </CardFooter>
                 </Card>

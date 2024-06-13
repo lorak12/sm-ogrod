@@ -9,6 +9,7 @@ export async function getProducts() {
   const products = await prisma.product.findMany({
     include: {
       category: true,
+      details: true,
     },
   });
 
@@ -23,6 +24,7 @@ export async function getProduct(id: string) {
     },
     include: {
       category: true,
+      details: true,
     },
   });
   revalidatePath("/");
@@ -34,23 +36,38 @@ export async function createProduct(data: z.infer<typeof productFormSchema>) {
   if (!validation.success) {
     return new NextResponse("Error creating product", { status: 403 });
   }
-  await prisma.product.create({
-    data: {
-      name: data.name,
-      description: data.description,
-      price: data.price,
-      status: data.status,
-      views: 0,
-      category: {
-        connect: {
-          id: data.categoryId,
+
+  await prisma.$transaction(async (prisma) => {
+    const product = await prisma.product.create({
+      data: {
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        status: data.status,
+        views: 0,
+        category: {
+          connect: {
+            id: data.categoryId,
+          },
         },
       },
-    },
-    include: {
-      category: true,
-    },
+      include: {
+        category: true,
+        details: true,
+      },
+    });
+
+    await prisma.detail.createMany({
+      data: data.details.map((detail) => ({
+        name: detail.name,
+        value: detail.value,
+        productId: product.id,
+      })),
+    });
+
+    return product;
   });
+
   revalidatePath("/");
 }
 
@@ -62,24 +79,41 @@ export async function updateProduct(
   if (!validation.success) {
     return new NextResponse("Error updating product", { status: 403 });
   }
-  await prisma.product.update({
-    where: {
-      id,
-    },
-    data: {
-      name: data.name,
-      description: data.description,
-      price: data.price,
-      status: data.status,
-      category: {
-        connect: {
-          id: data.categoryId,
+  await prisma.$transaction(async (prisma) => {
+    const product = await prisma.product.update({
+      where: {
+        id,
+      },
+      data: {
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        status: data.status,
+        category: {
+          connect: {
+            id: data.categoryId,
+          },
         },
       },
-    },
-    include: {
-      category: true,
-    },
+      include: {
+        category: true,
+        details: true,
+      },
+    });
+
+    await prisma.detail.deleteMany({
+      where: {
+        productId: id,
+      },
+    });
+
+    await prisma.detail.createMany({
+      data: data.details.map((detail) => ({
+        name: detail.name,
+        value: detail.value,
+        productId: product.id,
+      })),
+    });
   });
   revalidatePath("/");
 }

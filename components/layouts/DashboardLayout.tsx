@@ -50,9 +50,10 @@ function DashboardLayout({ children }: { children: ReactNode }) {
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              {links.map((link) => (
+              {links.map((link, index: number) => (
                 <Link
                   href={link.href}
+                  key={index}
                   className={
                     pathname === link.href
                       ? "flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"

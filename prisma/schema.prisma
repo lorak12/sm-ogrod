@@ -41,6 +41,6 @@ model Detail {
   name  String
   value String
 
-  Product   Product? @relation(fields: [productId], references: [id])
-  productId String?
+  Product   Product @relation(fields: [productId], references: [id])
+  productId String
 }

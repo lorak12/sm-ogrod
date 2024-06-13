@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -25,8 +25,11 @@ import {
   Check,
   ChevronsUpDown,
   CircleCheck,
+  CircleMinus,
   CirclePlus,
   CircleX,
+  PlusCircle,
+  Send,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -59,12 +62,36 @@ import { statuses } from "@/components/ui/constants";
 import { createCategory } from "@/actions/categoryActions";
 import { createProduct } from "@/actions/productActions";
 import { useRouter } from "next/navigation";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function ProductForm({ categories }: { categories: any[] }) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof productFormSchema>>({
     resolver: zodResolver(productFormSchema),
+    defaultValues: {
+      details: [
+        {
+          name: "",
+          value: "",
+        },
+      ],
+    },
   });
 
   const categoryForm = useForm<z.infer<typeof categorySchema>>({
@@ -73,6 +100,11 @@ export default function ProductForm({ categories }: { categories: any[] }) {
       name: "",
       description: "",
     },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "details",
   });
 
   async function onCategoryFormSubmit(data: z.infer<typeof categorySchema>) {
@@ -321,8 +353,81 @@ export default function ProductForm({ categories }: { categories: any[] }) {
             </FormItem>
           )}
         />
+        <Card>
+          <CardHeader>
+            <CardTitle>Szczegóły</CardTitle>
+            <CardDescription>
+              Tabelka zawierająca np. wymiary lub dostępne dodatki
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Szczegóły</TableHead>
+                  <TableHead>Nazwa wartości</TableHead>
+                  <TableHead>Wartość</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {fields.map((field, index: number) => (
+                  <TableRow key={field.id} className="h-[100px]">
+                    <TableCell className="font-semibold">{index + 1}</TableCell>
+                    <TableCell>
+                      <FormField
+                        control={form.control}
+                        name={`details.${index}.name`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <Input {...field} placeholder="Szerokość..." />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <FormField
+                        control={form.control}
+                        name={`details.${index}.value`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <Input {...field} placeholder="200 cm" />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="gap-1"
+                        onClick={() => (index > 0 ? remove(index) : null)}
+                      >
+                        <CircleMinus className="h-3.5 w-3.5" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+          <CardFooter className="justify-center border-t p-4">
+            <Button
+              size="sm"
+              variant="ghost"
+              className="gap-1"
+              onClick={() => append({ name: "", value: "" })}
+            >
+              <PlusCircle className="h-3.5 w-3.5" />
+              Dodaj wiersz
+            </Button>
+          </CardFooter>
+        </Card>
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit" className="gap-2">
+          Gotowe <Send className="w-4 h-4" />
+        </Button>
       </form>
     </Form>
   );

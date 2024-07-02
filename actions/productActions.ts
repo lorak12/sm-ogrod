@@ -126,3 +126,39 @@ export async function deleteProduct(id: string) {
   });
   revalidatePath("/");
 }
+
+export async function getActiveProducts(searchParams: { name?: string, categoryId?: string, maxPrice?: number, minPrice?: number }){
+  const { name, categoryId, maxPrice, minPrice } = searchParams;
+
+  const products = await prisma.product.findMany({
+    where: {
+    status: "public",
+    ...(name && { name: { contains: name, mode: 'insensitive' } }),
+    ...(categoryId && { categoryId: categoryId }),
+    ...(maxPrice && { price: { lte: Number(maxPrice) } }),
+    ...(minPrice && { price: { gte: Number(minPrice) } }),
+  },
+    include: {
+      category: true,
+      details: true,
+    }
+  });
+
+  revalidatePath("/");
+  return products;
+}
+
+
+export async function updateProductViews(id: string){
+  await prisma.product.update({
+    where: {
+      id
+    },
+    data: {
+      views: {
+        increment: 1
+      }
+    }
+  })
+  revalidatePath("/");
+}

@@ -6,3 +6,4 @@ export const checkRole = (role: Roles) => {
 
   return sessionClaims?.metadata.role === role;
 };
+

@@ -28,3 +28,10 @@ export const categorySchema = z.object({
   name: z.string().min(1, { message: "Nazwa jest wymagana" }),
   description: z.string().min(1, { message: "Opis jest wymagany" }),
 });
+
+export const searchSchema = z.object({
+  name: z.string().optional(),
+  categoryId: z.string().optional(),
+  maxPrice: z.coerce.number().optional(),
+  minPrice: z.coerce.number().optional(),
+})

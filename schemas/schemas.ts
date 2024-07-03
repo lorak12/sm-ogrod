@@ -35,3 +35,12 @@ export const searchSchema = z.object({
   maxPrice: z.coerce.number().optional(),
   minPrice: z.coerce.number().optional(),
 })
+
+export const reviewSchema = z.object({
+  name: z.string().min(1, { message: "Nazwa jest wymagana" }),
+  surname: z.string().min(1, { message: "Nazwisko jest wymagane" }),
+  email: z.string().min(1, { message: "Email jest wymagany" }),
+  stars: z.coerce.number().min(0, { message: "Ocena jest wymagana" }).nonnegative({ message: "Ocena musi być liczbą nieujemną" }),
+  content: z.string().min(1, { message: "Treść jest wymagana "}),
+  productId: z.string().optional()
+})

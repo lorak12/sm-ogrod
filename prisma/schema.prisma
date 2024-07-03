@@ -23,6 +23,7 @@ model Product {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Review    Review[]
 }
 
 model Category {
@@ -43,4 +44,19 @@ model Detail {
 
   Product   Product @relation(fields: [productId], references: [id])
   productId String
+}
+
+model Review {
+  id      String @id @default(uuid())
+  email   String
+  content String
+  name    String
+  surname String
+  stars   Int
+
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

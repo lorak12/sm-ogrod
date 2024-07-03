@@ -127,7 +127,16 @@ export async function deleteProduct(id: string) {
   revalidatePath("/");
 }
 
-export async function getActiveProducts(searchParams: { name?: string, categoryId?: string, maxPrice?: number, minPrice?: number }){
+export async function getActiveProducts(searchParams?: { name?: string, categoryId?: string, maxPrice?: number, minPrice?: number }){
+  if(!searchParams) return await prisma.product.findMany({
+    where: {
+      status: "public"
+    },
+    include:{
+      category: true,
+      details: true,
+    }
+  })
   const { name, categoryId, maxPrice, minPrice } = searchParams;
 
   const products = await prisma.product.findMany({

@@ -103,6 +103,37 @@ export default function ContactForm({ products }: { products: Product[] }) {
 						)}
 					/>
 				</div>
+				<FormField
+					control={form.control}
+					name="productId"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Produkt (opcjonalnie)</FormLabel>
+							<Select
+								onValueChange={field.onChange}
+								defaultValue={field.value}
+							>
+								<FormControl>
+									<SelectTrigger>
+										<SelectValue placeholder="Wybierz produkt" />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									{products.map((status) => (
+										<SelectItem
+											value={status.id}
+											key={status.name}
+										>
+											<div className="flex">{status.name}</div>
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+							<FormDescription>Wybierz produkt ktory oceniasz</FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 
 				<FormField
 					control={form.control}
@@ -159,38 +190,6 @@ export default function ContactForm({ products }: { products: Product[] }) {
 									{...field}
 								/>
 							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
-				<FormField
-					control={form.control}
-					name="productId"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Produkt</FormLabel>
-							<Select
-								onValueChange={field.onChange}
-								defaultValue={field.value}
-							>
-								<FormControl>
-									<SelectTrigger>
-										<SelectValue placeholder="Wybierz produkt" />
-									</SelectTrigger>
-								</FormControl>
-								<SelectContent>
-									{products.map((status) => (
-										<SelectItem
-											value={status.id}
-											key={status.name}
-										>
-											<div className="flex">{status.name}</div>
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-							<FormDescription>Wybierz produkt ktory oceniasz</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}

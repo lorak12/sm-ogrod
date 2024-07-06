@@ -22,6 +22,7 @@ export const productFormSchema = z.object({
     .string({ message: "Wymagane" })
     .min(1, { message: "ID kategorii jest wymagane" }),
   details: z.array(detailSchema),
+  images: z.object({ url: z.string() }).array(),
 });
 
 export const categorySchema = z.object({
@@ -34,13 +35,16 @@ export const searchSchema = z.object({
   categoryId: z.string().optional(),
   maxPrice: z.coerce.number().optional(),
   minPrice: z.coerce.number().optional(),
-})
+});
 
 export const reviewSchema = z.object({
   name: z.string().min(1, { message: "Nazwa jest wymagana" }),
   surname: z.string().min(1, { message: "Nazwisko jest wymagane" }),
   email: z.string().min(1, { message: "Email jest wymagany" }),
-  stars: z.coerce.number().min(0, { message: "Ocena jest wymagana" }).nonnegative({ message: "Ocena musi być liczbą nieujemną" }),
-  content: z.string().min(1, { message: "Treść jest wymagana "}),
-  productId: z.string().optional()
-})
+  stars: z.coerce
+    .number()
+    .min(0, { message: "Ocena jest wymagana" })
+    .nonnegative({ message: "Ocena musi być liczbą nieujemną" }),
+  content: z.string().min(1, { message: "Treść jest wymagana " }),
+  productId: z.string().optional(),
+});

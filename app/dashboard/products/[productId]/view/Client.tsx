@@ -51,6 +51,7 @@ import {
   CirclePlus,
   CircleX,
   PlusCircle,
+  Trash,
   Upload,
 } from "lucide-react";
 import Image from "next/image";
@@ -81,7 +82,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { Category, Product } from "@prisma/client";
+import { Category } from "@prisma/client";
 import {
   Dialog,
   DialogClose,
@@ -91,6 +92,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { ProductWithDetailsAndCategory } from "@/types/types";
+import UploadImageButton from "@/components/ui/upload-image-button";
+import UploadGallery from "@/components/ui/upload-gallery";
 
 function Client({
   product,
@@ -116,6 +120,14 @@ function Client({
           return {
             name: detail.name,
             value: detail.value,
+          };
+        }),
+      ],
+      images: [
+        ...product.images.map((image: any) => {
+          return {
+            id: image.id,
+            url: image.url,
           };
         }),
       ],
@@ -576,39 +588,33 @@ function Client({
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid gap-2">
-                      <Image
-                        alt="Product image"
-                        className="aspect-square w-full rounded-md object-cover"
-                        height="300"
-                        src="/placeholder.svg"
-                        width="300"
-                      />
-                      <div className="grid grid-cols-3 gap-2">
-                        <button>
-                          <Image
-                            alt="Product image"
-                            className="aspect-square w-full rounded-md object-cover"
-                            height="84"
-                            src="/placeholder.svg"
-                            width="84"
-                          />
-                        </button>
-                        <button>
-                          <Image
-                            alt="Product image"
-                            className="aspect-square w-full rounded-md object-cover"
-                            height="84"
-                            src="/placeholder.svg"
-                            width="84"
-                          />
-                        </button>
-                        <button className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
-                          <Upload className="h-4 w-4 text-muted-foreground" />
-                          <span className="sr-only">Upload</span>
-                        </button>
-                      </div>
-                    </div>
+                    <FormField
+                      control={form.control}
+                      name="images"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="grid gap-2">
+                              <UploadGallery
+                                value={field.value.map((image) => image.url)}
+                                disabled={field.disabled}
+                                onChange={(url) =>
+                                  field.onChange([...field.value, { url }])
+                                }
+                                onRemove={(url) =>
+                                  field.onChange([
+                                    ...field.value.filter(
+                                      (current) => current.url != url
+                                    ),
+                                  ])
+                                }
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </CardContent>
                 </Card>
                 <Card className="w-full">

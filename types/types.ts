@@ -1,3 +1,5 @@
+import { Image } from "@prisma/client";
+
 type Category = {
   id: string;
   name: string;
@@ -25,7 +27,8 @@ type Product = {
   updatedAt: Date;
 };
 
-type ProductWithDetailsAndCategory = Product & {
+export type ProductWithDetailsAndCategory = Product & {
   category: Category;
   details: Detail[];
+  images: Image[];
 };

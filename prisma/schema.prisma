@@ -21,6 +21,8 @@ model Product {
 
   details Detail[]
 
+  images Image[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Review    Review[]
@@ -56,6 +58,17 @@ model Review {
 
   Product   Product? @relation(fields: [productId], references: [id])
   productId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id  String @id @default(uuid())
+  url String
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

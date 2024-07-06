@@ -78,6 +78,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import UploadImageButton from "@/components/ui/upload-image-button";
 
 export default function ProductForm({ categories }: { categories: any[] }) {
   const router = useRouter();
@@ -91,6 +92,7 @@ export default function ProductForm({ categories }: { categories: any[] }) {
           value: "",
         },
       ],
+      images: [],
     },
   });
 
@@ -148,6 +150,29 @@ export default function ProductForm({ categories }: { categories: any[] }) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+        <FormField
+          control={form.control}
+          name="images"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Zdjęcia</FormLabel>
+              <FormControl>
+                <UploadImageButton
+                  imageDisplay={true}
+                  value={field.value.map((image) => image.url)}
+                  disabled={field.disabled}
+                  onChange={(url) => field.onChange([...field.value, { url }])}
+                  onRemove={(url) =>
+                    field.onChange([
+                      ...field.value.filter((current) => current.url != url),
+                    ])
+                  }
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="name"
@@ -339,7 +364,7 @@ export default function ProductForm({ categories }: { categories: any[] }) {
                 </FormControl>
                 <SelectContent>
                   {statuses.map((status) => (
-                    <SelectItem value={status.value}>
+                    <SelectItem value={status.value} key={status.value}>
                       <div className="flex">
                         <status.icon className="w-4 h-4 mr-2" />
                         {status.label}

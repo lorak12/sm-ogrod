@@ -10,6 +10,7 @@ export async function getProducts() {
     include: {
       category: true,
       details: true,
+      images: true,
     },
   });
 
@@ -25,6 +26,7 @@ export async function getProduct(id: string) {
     include: {
       category: true,
       details: true,
+      images: true,
     },
   });
   revalidatePath("/");
@@ -54,6 +56,7 @@ export async function createProduct(data: z.infer<typeof productFormSchema>) {
       include: {
         category: true,
         details: true,
+        images: true,
       },
     });
 
@@ -61,6 +64,13 @@ export async function createProduct(data: z.infer<typeof productFormSchema>) {
       data: data.details.map((detail) => ({
         name: detail.name,
         value: detail.value,
+        productId: product.id,
+      })),
+    });
+
+    await prisma.image.createMany({
+      data: data.images.map((image) => ({
+        url: image.url,
         productId: product.id,
       })),
     });
@@ -114,6 +124,19 @@ export async function updateProduct(
         productId: product.id,
       })),
     });
+
+    await prisma.image.deleteMany({
+      where: {
+        productId: id,
+      },
+    });
+
+    await prisma.image.createMany({
+      data: data.images.map((image) => ({
+        url: image.url,
+        productId: product.id,
+      })),
+    });
   });
   revalidatePath("/");
 }
@@ -127,47 +150,54 @@ export async function deleteProduct(id: string) {
   revalidatePath("/");
 }
 
-export async function getActiveProducts(searchParams?: { name?: string, categoryId?: string, maxPrice?: number, minPrice?: number }){
-  if(!searchParams) return await prisma.product.findMany({
-    where: {
-      status: "public"
-    },
-    include:{
-      category: true,
-      details: true,
-    }
-  })
+export async function getActiveProducts(searchParams?: {
+  name?: string;
+  categoryId?: string;
+  maxPrice?: number;
+  minPrice?: number;
+}) {
+  if (!searchParams)
+    return await prisma.product.findMany({
+      where: {
+        status: "public",
+      },
+      include: {
+        category: true,
+        details: true,
+        images: true,
+      },
+    });
   const { name, categoryId, maxPrice, minPrice } = searchParams;
 
   const products = await prisma.product.findMany({
     where: {
-    status: "public",
-    ...(name && { name: { contains: name, mode: 'insensitive' } }),
-    ...(categoryId && { categoryId: categoryId }),
-    ...(maxPrice && { price: { lte: Number(maxPrice) } }),
-    ...(minPrice && { price: { gte: Number(minPrice) } }),
-  },
+      status: "public",
+      ...(name && { name: { contains: name, mode: "insensitive" } }),
+      ...(categoryId && { categoryId: categoryId }),
+      ...(maxPrice && { price: { lte: Number(maxPrice) } }),
+      ...(minPrice && { price: { gte: Number(minPrice) } }),
+    },
     include: {
       category: true,
       details: true,
-    }
+      images: true,
+    },
   });
 
   revalidatePath("/");
   return products;
 }
 
-
-export async function updateProductViews(id: string){
+export async function updateProductViews(id: string) {
   await prisma.product.update({
     where: {
-      id
+      id,
     },
     data: {
       views: {
-        increment: 1
-      }
-    }
-  })
+        increment: 1,
+      },
+    },
+  });
   revalidatePath("/");
 }

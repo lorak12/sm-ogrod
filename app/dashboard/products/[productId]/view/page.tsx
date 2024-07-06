@@ -9,7 +9,7 @@ async function Page({
 }) {
   const product = await getProduct(productId);
   const categories = await getCategories();
-
+  // @ts-ignore
   return <Client product={product} categories={categories} />;
 }
 

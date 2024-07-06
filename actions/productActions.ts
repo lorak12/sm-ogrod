@@ -201,3 +201,19 @@ export async function updateProductViews(id: string) {
   });
   revalidatePath("/");
 }
+
+export async function getProductsByCategory(categoryId: string) {
+  const products = await prisma.product.findMany({
+    where: {
+      categoryId,
+      status: "public",
+    },
+    include: {
+      category: true,
+      details: true,
+      images: true,
+    },
+  });
+  revalidatePath("/");
+  return products;
+}

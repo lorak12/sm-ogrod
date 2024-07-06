@@ -67,9 +67,12 @@ export async function deleteCategory(id: string) {
       throw new NextResponse("Error deleting category", { status: 403 });
     }
 
-    await prisma.product.deleteMany({
+    await prisma.product.updateMany({
       where: {
         categoryId: id,
+      },
+      data: {
+        categoryId: "Brak Kategorii",
       },
     });
 

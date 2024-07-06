@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -6,6 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { DirectionAwareHover } from "@/components/ui/direction-aware-hover";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { BiSolidTimer } from "react-icons/bi";
@@ -16,32 +18,32 @@ import { LuSettings2 } from "react-icons/lu";
 export default function Home() {
   return (
     <main>
-      <div className="w-full grid place-content-center p-24 sm:my-48 mt-24">
-        <div className="text-center  flex flex-col gap-4 items-center justify-center max-w-4xl">
-          <h2 className="text-5xl font-semibold tracking-wide leading-[52px] sm:leading-none sm:tracking-normal text-gray-900 dark:text-white">
-            SM Ogród - Perfekcyjne rozwiązania do{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-              każdego ogrodu
-            </span>
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400 ">
-            Zachęcamy do zapoznania się z naszym asortymentem, który został
-            stworzony z myślą o zapewnieniu kompleksowego wsparcia dla Twojego
-            ogrodu. Dzięki nam możesz cieszyć się pięknem i funkcjonalnością
-            przestrzeni zielonej wokół domu.
-          </p>
-          <div className="flex gap-4 justify-center max-w-20">
-            <Button>
-              <Link href={"/o-nas"}>O nas</Link>
-            </Button>
-            <Button variant={"ghost"}>
-              <Link href={"/produkty"} className="flex items-center gap-2 ">
-                Produkty <ArrowRight />
-              </Link>
-            </Button>
-          </div>
+      <div className="h-[60rem] w-full dark:bg-background bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative flex items-center justify-center flex-col gap-4">
+        <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,background)]"></div>
+        <p className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-500 to-neutral-900 text-center">
+          SM Ogród - Perfekcyjne rozwiązania do{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+            każdego ogrodu
+          </span>
+        </p>
+        <p className="text-gray-600 dark:text-gray-400 w-1/2 text-center">
+          Zachęcamy do zapoznania się z naszym asortymentem, który został
+          stworzony z myślą o zapewnieniu kompleksowego wsparcia dla Twojego
+          ogrodu. Dzięki nam możesz cieszyć się pięknem i funkcjonalnością
+          przestrzeni zielonej wokół domu.
+        </p>
+        <div className="flex gap-4 justify-center">
+          <Button size="lg">
+            <Link href={"/contact"}>O nas</Link>
+          </Button>
+          <Button variant="ghost" size="lg">
+            <Link href="/produkty" className="flex items-center gap-2 ">
+              Produkty <ArrowRight />
+            </Link>
+          </Button>
         </div>
       </div>
+
       <section className="w-full sm:p-24 flex flex-col justify-center items-center mb-20 gap-10 p-8">
         <div className="text-center flex flex-col gap-4">
           <h2 className="text-gray-900 dark:text-white font-bold text-4xl">
@@ -63,99 +65,45 @@ export default function Home() {
           className="w-full"
         >
           <CarouselContent>
-            <CarouselItem className="md:basis-1/2 lg:basis-1/3 h-[500px]">
-              <div className="w-full h-full bg-[url('/about1.jpg')] bg-center bg-cover rounded-lg transition ease-in-out  overflow-hidden">
-                <div className="w-full h-full hover:bg-black/60 rounded-lg flex flex-col justify-center p-8 text-white group transition ease-in-out">
-                  <h4 className="text-[0px] group-hover:text-xl transition ease-in-out">
-                    Altana A02
-                  </h4>
-                  <p className="text-justify text-[0px] group-hover:text-sm transition ease-in-out">
-                    Urokliwa altana przy domu to idealne miejsce do relaksu i
-                    spotkań na świeżym powietrzu. Solidne wykonanie i elegancki
-                    design sprawiają, że altana stanowi harmonijne rozszerzenie
-                    domu, tworząc oazę spokoju. Doskonale łączy funkcjonalność i
-                    estetykę, zapewniając idealną przestrzeń do cieszenia się
-                    każdą porą roku w gronie rodziny czy przyjaciół.
-                  </p>
-                </div>
-              </div>
+            <CarouselItem className="md:basis-1/2 lg:basis-1/3 max-h-[500px] aspect-square">
+              <DirectionAwareHover
+                imageUrl="/about1.jpg"
+                className="w-full h-full"
+              >
+                <h4>Altana A02</h4>
+              </DirectionAwareHover>
             </CarouselItem>
-            <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-              <div className="w-full h-full bg-[url('/about2.jpg')] bg-center bg-cover rounded-lg transition ease-in-out  overflow-hidden">
-                <div className="w-full h-full hover:bg-black/60 rounded-lg flex flex-col justify-center p-8 text-white group transition ease-in-out">
-                  <h4 className="text-[0px] group-hover:text-xl transition ease-in-out">
-                    Plac Zabaw PZ04
-                  </h4>
-                  <p className="text-justify text-[0px] group-hover:text-sm transition ease-in-out">
-                    Plac zabaw to magiczne miejsce, gdzie dzieci rozwijają
-                    wyobraźnię i czerpią radość z zabawy. Z kolorowymi
-                    huśtawkami, zjeżdżalniami i wieloma innymi atrakcjami, plac
-                    zabaw staje się areną pełną śmiechu, nauki i przygód.
-                    Bezpieczne i pełne energii miejsce, gdzie dzieci uczą się
-                    współpracy, rozwijają sprawność fizyczną i budują
-                    przyjaźnie, tworząc niezapomniane chwile radości i radosnych
-                    wspomnień.
-                  </p>
-                </div>
-              </div>
+            <CarouselItem className="md:basis-1/2 lg:basis-1/3 max-h-[500px] aspect-square">
+              <DirectionAwareHover
+                imageUrl="/about2.jpg"
+                className="w-full h-full"
+              >
+                <h4>Huśtawka H01</h4>
+              </DirectionAwareHover>
             </CarouselItem>
-            <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-              <div className="w-full h-full bg-[url('/about3.jpg')] bg-center bg-cover rounded-lg transition ease-in-out  overflow-hidden">
-                <div className="w-full h-full hover:bg-black/60 rounded-lg flex flex-col justify-center p-8 text-white group transition ease-in-out">
-                  <h4 className="text-[0px] group-hover:text-xl transition ease-in-out">
-                    Altana A03
-                  </h4>
-                  <p className="text-justify text-[0px] group-hover:text-sm transition ease-in-out">
-                    Altana A03 to eleganckie schronienie, gdzie spokój spotyka
-                    się z pięknem otaczającej przyrody. Z solidnym wykonaniem i
-                    wyrafinowanym designem, altana staje się oazą relaksu. Z
-                    dala od zgiełku codziennego życia, oferuje doskonałą
-                    przestrzeń do intymnych spotkań, czytania książki przy
-                    szumie liści czy romantycznych kolacji pod gwiazdami. To
-                    miejsce, gdzie architektura łączy się z naturą, tworząc
-                    unikalną atmosferę harmonii i spokoju.
-                  </p>
-                </div>
-              </div>
+            <CarouselItem className="md:basis-1/2 lg:basis-1/3 max-h-[500px] aspect-square">
+              <DirectionAwareHover
+                imageUrl="/about3.jpg"
+                className="w-full h-full"
+              >
+                <h4>Plac Zabaw PZ02</h4>
+              </DirectionAwareHover>
             </CarouselItem>
-            <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-              <div className="w-full h-full bg-[url('/about4.jpg')] bg-center bg-cover rounded-lg transition ease-in-out  overflow-hidden">
-                <div className="w-full h-full hover:bg-black/60 rounded-lg flex flex-col justify-center p-8 text-white group transition ease-in-out">
-                  <h4 className="text-[0px] group-hover:text-xl transition ease-in-out">
-                    Zadaszenie Tarasu
-                  </h4>
-                  <p className="text-justify text-[0px] group-hover:text-sm transition ease-in-out">
-                    Zadaszenie tarasu to praktyczne i stylowe rozwiązanie,
-                    precyzyjnie dopasowywane do indywidualnych potrzeb klienta.
-                    Dzięki solidnym materiałom i starannemu wykonaniu,
-                    zadaszenie nie tylko chroni przed warunkami atmosferycznymi,
-                    ale także dodaje elegancji tarasowi. To miejsce, gdzie
-                    funkcjonalność spotyka się z designerskim podejściem,
-                    podkreślając unikalny charakter przestrzeni. Odkryj komfort
-                    i styl pod naszym zadaszeniem, dostosowanym do Twojego
-                    gustu.
-                  </p>
-                </div>
-              </div>
+            <CarouselItem className="md:basis-1/2 lg:basis-1/3 max-h-[500px] aspect-square">
+              <DirectionAwareHover
+                imageUrl="/about4.jpg"
+                className="w-full h-full"
+              >
+                <h4>Altana A01</h4>
+              </DirectionAwareHover>
             </CarouselItem>
-            <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-              <div className="w-full h-full bg-[url('/about5.jpeg')] bg-center bg-cover rounded-lg transition ease-in-out  overflow-hidden">
-                <div className="w-full h-full hover:bg-black/60 rounded-lg flex flex-col justify-center p-8 text-white group transition ease-in-out">
-                  <h4 className="text-[0px] group-hover:text-xl transition ease-in-out">
-                    Huśtawka HS01
-                  </h4>
-                  <p className="text-justify text-[0px] group-hover:text-sm transition ease-in-out">
-                    Huśtawka HS01 to nasz bestseller. Zapewniając niezapomniane
-                    chwile zabawy, nasza huśtawka to połączenie komfortu,
-                    bezpieczeństwa i uroku w jednym. Solidne wykonanie,
-                    ergonomiczny design i radość beztroskiej rozrywki sprawiają,
-                    że ta huśtawka zdobyła serca wielu. Doświadcz
-                    niepowtarzalnego uroku i przyjemności, sięgając po naszego
-                    bestsellera, która przynosi uśmiech na twarze zarówno
-                    dzieci, jak i dorosłych.
-                  </p>
-                </div>
-              </div>
+            <CarouselItem className="md:basis-1/2 lg:basis-1/3 max-h-[500px] aspect-square">
+              <DirectionAwareHover
+                imageUrl="/about5.jpeg"
+                className="w-full h-full"
+              >
+                <h4>Plac Zabaw PZ04</h4>
+              </DirectionAwareHover>
             </CarouselItem>
           </CarouselContent>
           <CarouselPrevious className="sm:flex hidden" />

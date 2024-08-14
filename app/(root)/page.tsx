@@ -18,9 +18,8 @@ import { LuSettings2 } from "react-icons/lu";
 export default function Home() {
   return (
     <main>
-      <div className="h-[60rem] w-full dark:bg-background bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative flex items-center justify-center flex-col gap-4">
-        <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,background)]"></div>
-        <p className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-500 to-neutral-900 text-center">
+      <div className="h-[60rem] w-full  relative flex items-center justify-center flex-col gap-4">
+        <p className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-500 to-neutral-900 text-center dark:from-white dark:to-slate-400">
           SM Ogród - Perfekcyjne rozwiązania do{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
             każdego ogrodu

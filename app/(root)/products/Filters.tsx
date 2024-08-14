@@ -61,7 +61,7 @@ function Filters({ categories }: { categories: Category[] }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 flex flex-col"
+        className="space-y-6 flex flex-col border p-8 rounded-lg"
       >
         <FormField
           control={form.control}
@@ -123,7 +123,7 @@ function Filters({ categories }: { categories: Category[] }) {
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "w-[400px] justify-between",
+                        "w-full justify-between",
                         !field.value && "text-muted-foreground"
                       )}
                     >

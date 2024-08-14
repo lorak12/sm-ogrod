@@ -20,17 +20,19 @@ import {
 import { LuMenu } from "react-icons/lu";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { UserButton, useUser } from "@clerk/nextjs";
-import { Layout, Package, Phone } from "lucide-react";
+import { Home, Layout, Package, Phone } from "lucide-react";
 
 export function Navbar() {
   const { user } = useUser();
 
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+
   return (
     <nav className="h-[80px] w-full flex items-center justify-between px-8 gap-10 border-b border-gray-100 dark:border-none z-50">
-      <div className="items-center gap-4 hidden sm:flex">
+      <div className="items-center gap-4 hidden md:flex">
         <Link href={"/"} className="flex items-center gap-4">
           <Image
-            src={"/logo.png"}
+            src={"/logo.svg"}
             alt="logo"
             width={70}
             height={70}
@@ -69,18 +71,43 @@ export function Navbar() {
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-      <div className="flex items-center sm:hidden">
-        <Sheet>
+      <div className="flex items-center md:hidden">
+        <Sheet open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
           <SheetTrigger>
             <LuMenu className="h-6 w-6" />
           </SheetTrigger>
-          <SheetContent>
+          <SheetContent side="left">
             <SheetHeader>
               <SheetTitle>SM Ogród</SheetTitle>
             </SheetHeader>
             <NavigationMenu>
               <ul className="grid w-[400px] gap-1 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                TODO
+                <li onClick={() => setIsOpen(false)}>
+                  <Link href="/" className="flex items-center py-2">
+                    <Home className="w-4 h-4 mr-2" />
+                    Home
+                  </Link>
+                </li>
+                <li onClick={() => setIsOpen(false)}>
+                  <Link href="/products" className="flex items-center py-2">
+                    <Package className="w-4 h-4 mr-2" />
+                    Produkty
+                  </Link>
+                </li>
+                <li onClick={() => setIsOpen(false)}>
+                  <Link href="/contact" className="flex items-center py-2">
+                    <Phone className="w-4 h-4 mr-2" />
+                    Kontakt
+                  </Link>
+                </li>
+                {user?.publicMetadata.role === "admin" ? (
+                  <li onClick={() => setIsOpen(false)}>
+                    <Link href="/dashboard" className="flex items-center py-2">
+                      <Layout className="w-4 h-4 mr-2" />
+                      Dashboard
+                    </Link>
+                  </li>
+                ) : null}
               </ul>
             </NavigationMenu>
           </SheetContent>

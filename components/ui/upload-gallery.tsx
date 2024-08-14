@@ -56,7 +56,7 @@ function UploadGallery({
             />
           </div>
         ))}
-        <CldUploadWidget uploadPreset="fg0ntmfq" onUpload={onUpload}>
+        <CldUploadWidget uploadPreset="y22basf3" onUpload={onUpload}>
           {({ open }) => {
             const onClick = () => {
               open();

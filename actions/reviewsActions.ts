@@ -44,3 +44,12 @@ export async function deleteReview(id: string) {
   });
   revalidatePath("/");
 }
+
+export async function getLastReviews() {
+  const reviews = await prisma.review.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 2,
+  });
+  revalidatePath("/");
+  return reviews;
+}

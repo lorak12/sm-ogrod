@@ -217,3 +217,25 @@ export async function getProductsByCategory(categoryId: string) {
   revalidatePath("/");
   return products;
 }
+
+export async function getMostViewedProductsByDate(date: Date) {
+  const products = await prisma.product.findMany({
+    where: {
+      createdAt: {
+        lte: date,
+      },
+      status: "public",
+    },
+    orderBy: {
+      views: "desc",
+    },
+    include: {
+      category: true,
+      details: true,
+      images: true,
+    },
+    take: 2,
+  });
+  revalidatePath("/");
+  return products;
+}

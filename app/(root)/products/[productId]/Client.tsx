@@ -118,7 +118,7 @@ function Client({ product }: { product: ProductWithDetailsAndCategory }) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Nazwa wartości</TableHead>
+                  <TableHead>Parametr</TableHead>
                   <TableHead>Wartość</TableHead>
                 </TableRow>
               </TableHeader>

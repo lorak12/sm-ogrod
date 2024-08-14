@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageCircleQuestion, PhoneCall, Star } from "lucide-react";

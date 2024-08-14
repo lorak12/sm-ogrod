@@ -45,7 +45,7 @@ function DashboardLayout({ children }: { children: ReactNode }) {
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Image
-                src="/logo.png"
+                src="/logo.svg"
                 alt="Logo picture"
                 width="32"
                 height="32"
@@ -93,7 +93,7 @@ function DashboardLayout({ children }: { children: ReactNode }) {
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <Image
-                    src="/logo.png"
+                    src="/logo.svg"
                     alt="Logo picture"
                     width="32"
                     height="32"

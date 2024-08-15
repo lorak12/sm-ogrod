@@ -19,8 +19,9 @@ import {
 } from "@/components/ui/sheet";
 import { LuMenu } from "react-icons/lu";
 import { ThemeSwitcher } from "./ThemeSwitcher";
-import { UserButton, useUser } from "@clerk/nextjs";
-import { Home, Layout, Package, Phone } from "lucide-react";
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import { Home, Layout, LogIn, Package, Phone } from "lucide-react";
+import { Button } from "./ui/button";
 
 export function Navbar() {
   const { user } = useUser();
@@ -115,7 +116,15 @@ export function Navbar() {
       </div>
 
       <div className="gap-4 flex items-center">
-        <UserButton />
+        {user ? (
+          <UserButton />
+        ) : (
+          <SignInButton>
+            <Button>
+              Zaloguj się <LogIn className="w-4 h-4 ml-2" />
+            </Button>
+          </SignInButton>
+        )}
         <ThemeSwitcher />
       </div>
     </nav>

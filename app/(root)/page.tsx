@@ -1,4 +1,5 @@
 "use client";
+import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -21,9 +22,7 @@ export default function Home() {
       <div className="h-[60rem] w-full  relative flex items-center justify-center flex-col gap-4">
         <p className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-500 to-neutral-900 text-center dark:from-white dark:to-slate-400">
           SM Ogród - Perfekcyjne rozwiązania do{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-            każdego ogrodu
-          </span>
+          <span className="text-primary">każdego ogrodu</span>
         </p>
         <p className="text-gray-600 dark:text-gray-400 w-1/2 text-center">
           Zachęcamy do zapoznania się z naszym asortymentem, który został
@@ -36,7 +35,7 @@ export default function Home() {
             <Link href={"/contact"}>O nas</Link>
           </Button>
           <Button variant="ghost" size="lg">
-            <Link href="/produkty" className="flex items-center gap-2 ">
+            <Link href="/products" className="flex items-center gap-2 ">
               Produkty <ArrowRight />
             </Link>
           </Button>
@@ -61,6 +60,11 @@ export default function Home() {
           opts={{
             align: "start",
           }}
+          plugins={[
+            Autoplay({
+              delay: 2000,
+            }),
+          ]}
           className="w-full"
         >
           <CarouselContent>
@@ -121,9 +125,9 @@ export default function Home() {
             sprostać różnorodnym potrzebom ogrodniczym.
           </p>
         </div>
-        <div className="grid sm:grid-cols-2 gap-x-20 gap-y-10 lg:px-24 p-8 place-content-center">
+        <div className="grid md:grid-cols-2 gap-x-20 gap-y-10 lg:px-24 p-8 place-content-center">
           <div className="flex gap-4 justify-center">
-            <div className="p-4 bg-emerald-800 text-emerald-100 w-fit h-fit rounded-lg">
+            <div className="p-4 bg-primary text-white w-fit h-fit rounded-lg">
               <BiSolidTimer width={24} height={24} />
             </div>
             <div className="flex flex-col gap-2">
@@ -138,7 +142,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex gap-4 justify-center">
-            <div className="p-4 bg-emerald-800 text-emerald-100 w-fit h-fit rounded-lg">
+            <div className="p-4 bg-primary text-white w-fit h-fit rounded-lg">
               <FaRegHandRock width={24} height={24} />
             </div>
             <div className="flex flex-col gap-2">
@@ -153,7 +157,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex gap-4 justify-center">
-            <div className="p-4 bg-emerald-800 text-emerald-100 w-fit h-fit rounded-lg">
+            <div className="p-4 bg-primary text-white w-fit h-fit rounded-lg">
               <GiWoodBeam width={24} height={24} />
             </div>
             <div className="flex flex-col gap-2">
@@ -168,7 +172,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex gap-4 justify-center">
-            <div className="p-4 bg-emerald-800 text-emerald-100 w-fit h-fit rounded-lg">
+            <div className="p-4 bg-primary text-white w-fit h-fit rounded-lg">
               <LuSettings2 width={24} height={24} />
             </div>
             <div className="flex flex-col gap-2">

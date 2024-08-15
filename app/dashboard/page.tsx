@@ -1,4 +1,5 @@
 import {
+  getLastProductsByDate,
   getMostViewedProductsByDate,
   getProducts,
 } from "@/actions/productActions";
@@ -29,6 +30,7 @@ async function Page() {
   const products = await getProducts();
   const popularProducts = await getMostViewedProductsByDate(new Date());
   const lastReviews = await getLastReviews();
+  const lastProducts = await getLastProductsByDate(new Date());
 
   return (
     <div className="flex flex-1 flex-col gap-4  lg:gap-6 ">
@@ -97,13 +99,31 @@ async function Page() {
               </CardContent>
             </Card>
           </div>
-          <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-            <div className="flex flex-col items-center gap-1 text-center p-4 h-40 justify-center">
-              <Link href="/dashboard/products/new">
-                <Button className="mt-4">Dodaj produkt</Button>
-              </Link>
-            </div>
-          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Ostatnie Produkty</CardTitle>
+              <CardDescription>Ostatnie 7 dni</CardDescription>
+            </CardHeader>
+            <CardContent className="flex gap-4">
+              {lastProducts.map((product) => (
+                <Link
+                  href={`/dashboard/products/view/${product.id}`}
+                  key={product.id}
+                  className="border rounded-md p-4 flex items-center justify-between gap-2 w-1/2 hover:bg-primary/5 transition"
+                >
+                  <span className="flex items-center gap-2">
+                    {product.name}
+                    <Badge>{product.category.name}</Badge>
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Eye className="w-4 h-4" />
+                    {product.views}
+                  </span>
+                </Link>
+              ))}
+            </CardContent>
+          </Card>
         </div>
       ) : (
         <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">

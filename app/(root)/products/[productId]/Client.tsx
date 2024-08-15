@@ -45,7 +45,7 @@ function Client({ product }: { product: ProductWithDetailsAndCategory }) {
   };
 
   return (
-    <main className="px-12 py-6 min-h-screen grid grid-cols-3 gap-10">
+    <main className="px-12 py-6 lg:min-h-screen lg:grid lg:grid-cols-3 gap-10 grid-cols-1 flex flex-col-reverse">
       <div className="col-span-2 flex flex-col items-center gap-1 border p-6 rounded-md">
         <div className="relative h-2/3 w-[calc(100%-106px)]">
           <div
@@ -133,24 +133,23 @@ function Client({ product }: { product: ProductWithDetailsAndCategory }) {
             </Table>
           </CardContent>
         </CardHeader>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Podgląd</DialogTitle>
+            </DialogHeader>
+            {selectedImage && (
+              <Image
+                src={selectedImage}
+                alt="Selected"
+                width={800}
+                height={600}
+                className="object-cover w-full h-full"
+              />
+            )}
+          </DialogContent>
+        </Dialog>
       </Card>
-
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Podgląd</DialogTitle>
-          </DialogHeader>
-          {selectedImage && (
-            <Image
-              src={selectedImage}
-              alt="Selected"
-              width={800}
-              height={600}
-              className="object-cover w-full h-full"
-            />
-          )}
-        </DialogContent>
-      </Dialog>
     </main>
   );
 }

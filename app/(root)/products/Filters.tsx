@@ -61,7 +61,7 @@ function Filters({ categories }: { categories: Category[] }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 flex flex-col border p-8 rounded-lg"
+        className="space-y-6 flex flex-col border p-8 rounded-lg col-span-2 lg:col-span-1"
       >
         <FormField
           control={form.control}

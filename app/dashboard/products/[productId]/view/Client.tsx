@@ -303,7 +303,10 @@ function Client({
                       </TableHeader>
                       <TableBody>
                         {fields.map((field, index: number) => (
-                          <TableRow key={field.id} className="h-[100px]">
+                          <TableRow
+                            key={field.id || index}
+                            className="h-[100px]"
+                          >
                             <TableCell className="font-semibold">
                               {index + 1}
                             </TableCell>

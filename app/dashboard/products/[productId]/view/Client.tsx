@@ -559,7 +559,10 @@ function Client({
                               </FormControl>
                               <SelectContent>
                                 {statuses.map((status) => (
-                                  <SelectItem value={status.value}>
+                                  <SelectItem
+                                    value={status.value}
+                                    key={status.value}
+                                  >
                                     <div className="flex">
                                       <status.icon className="w-4 h-4 mr-2" />
                                       {status.label}

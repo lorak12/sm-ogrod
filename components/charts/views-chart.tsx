@@ -137,20 +137,20 @@ export function ViewsChart() {
   );
 
   return (
-    <Card>
+    <Card className="w-fit">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Aktywność na stronie</CardTitle>
           <CardDescription>Wykres pokazujący ruch na stronie</CardDescription>
         </div>
-        <div className="flex">
+        <div className="sm:flex grid grid-cols-2">
           {["desktop", "mobile"].map((key) => {
             const chart = key as keyof typeof chartConfig;
             return (
               <button
                 key={chart}
                 data-active={activeChart === chart}
-                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+                className="relative z-30 flex flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
                 onClick={() => setActiveChart(chart)}
               >
                 <span className="text-xs text-muted-foreground">
@@ -164,7 +164,7 @@ export function ViewsChart() {
           })}
         </div>
       </CardHeader>
-      <CardContent className="px-2 sm:p-6">
+      <CardContent className="px-2 sm:p-6 w-[calc(100vw-40px)]">
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"

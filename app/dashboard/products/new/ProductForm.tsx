@@ -427,6 +427,7 @@ export default function ProductForm({ categories }: { categories: any[] }) {
                         size="icon"
                         variant="ghost"
                         className="gap-1"
+                        type="button"
                         onClick={() => (index > 0 ? remove(index) : null)}
                       >
                         <CircleMinus className="h-3.5 w-3.5" />
@@ -441,6 +442,7 @@ export default function ProductForm({ categories }: { categories: any[] }) {
             <Button
               size="sm"
               variant="ghost"
+              type="button"
               className="gap-1"
               onClick={() => append({ name: "", value: "" })}
             >

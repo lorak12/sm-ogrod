@@ -49,7 +49,7 @@ async function Page() {
       {products.length > 0 ? (
         <div className="flex flex-col gap-8">
           <ViewsChart />
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid sm:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
                 <CardTitle>Popularne Produkty</CardTitle>
@@ -64,7 +64,9 @@ async function Page() {
                   >
                     <span className="flex items-center gap-2">
                       {product.name}
-                      <Badge>{product.category.name}</Badge>
+                      <Badge className="hidden sm:block">
+                        {product.category.name}
+                      </Badge>
                     </span>
 
                     <span className="flex items-center gap-1">
@@ -105,16 +107,18 @@ async function Page() {
               <CardTitle>Ostatnie Produkty</CardTitle>
               <CardDescription>Ostatnie 7 dni</CardDescription>
             </CardHeader>
-            <CardContent className="flex gap-4">
+            <CardContent className="sm:flex gap-4 grid grid-cols-2">
               {lastProducts.map((product) => (
                 <Link
                   href={`/dashboard/products/view/${product.id}`}
                   key={product.id}
-                  className="border rounded-md p-4 flex items-center justify-between gap-2 w-1/2 hover:bg-primary/5 transition"
+                  className="border rounded-md p-4 flex items-center justify-between gap-2 sm:w-1/2 hover:bg-primary/5 transition"
                 >
                   <span className="flex items-center gap-2">
                     {product.name}
-                    <Badge>{product.category.name}</Badge>
+                    <Badge className="hidden sm:block">
+                      {product.category.name}
+                    </Badge>
                   </span>
                   <span className="flex items-center gap-1">
                     <Eye className="w-4 h-4" />

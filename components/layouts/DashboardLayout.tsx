@@ -98,7 +98,7 @@ function DashboardLayout({ children }: { children: ReactNode }) {
                     width="32"
                     height="32"
                   />
-                  <span>Aukcje</span>
+                  <span>SM Ogród</span>
                 </Link>
                 {links.map((link) => (
                   <Link

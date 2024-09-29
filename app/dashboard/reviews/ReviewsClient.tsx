@@ -83,11 +83,6 @@ function ReviewsClient({ reviews }: { reviews: any[] }) {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Button asChild className="gap-2">
-          <Link href="/dashboard/reviews/new">
-            Dodaj Kategorie <CirclePlus className="w-4 h-4" />
-          </Link>
-        </Button>
       </div>
       <DataTable columns={columns} data={clientReviews} filter="name" />
     </div>

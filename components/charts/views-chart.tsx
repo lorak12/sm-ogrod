@@ -137,7 +137,7 @@ export function ViewsChart() {
   );
 
   return (
-    <Card className="w-fit">
+    <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Aktywność na stronie</CardTitle>
@@ -164,7 +164,7 @@ export function ViewsChart() {
           })}
         </div>
       </CardHeader>
-      <CardContent className="px-2 sm:p-6 w-[calc(100vw-40px)]">
+      <CardContent className="px-2 sm:p-6 w-full">
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
